@@ -1,17 +1,37 @@
-import pokemon from './pokemon.jsx'
-import './pokedex.css'
+import React, { useState } from 'react';
+import './pokedex.css';
+import pokemon from './pokemon.jsx';
+import Card from './card.jsx';  
 
-/* 
-This is the component for the pokedex page. 
-Feel free to edit anything in this file except the name of the component.
-*/
-const Pokedex = (props) => {
+const Pokedex = () => {
+    const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+    const handleButtonClick = (pokeName) => {
+        setSelectedPokemon(pokeName);
+    };
+
     return (
-        <div> 
-            <h1>Pokedex</h1>
+        <div>
+            <div className="header">Pokédex</div>
+            <div className="bar"></div>
+            <div className="button_section">
+                {pokemon.map(poke => (
+                    <button
+                        key={poke.name}
+                        className={`pokemon_buttons ${selectedPokemon === poke.name ? 'active' : ''}`}
+                        onClick={() => handleButtonClick(poke.name)}
+                    >
+                        {poke.name}
+                    </button>
+                ))}
+            </div>
+            {selectedPokemon ? (
+                <Card data={pokemon.find(p => p.name === selectedPokemon)} />
+            ) : (
+                <div className="select">Select a Pokémon!</div>
+            )}
         </div>
-
-    )
+    );
 }
 
-export default Pokedex
+export default Pokedex;
